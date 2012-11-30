@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["kkxlkkxllb@gmail.com"]
   gem.description   = %q{又拍云存储ruby api}
   gem.summary       = %q{又拍云存储ruby api}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/kkxlkkxllb/upyun"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
