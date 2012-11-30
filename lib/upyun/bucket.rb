@@ -49,7 +49,7 @@ module Upyun
       response.body
 		end
 
-		def check_demo(file)
+		def checkout(file)
 			url = "http://#{api_domain}/#{bucketname}/#{file}"
 			uri = URI.parse(URI.encode(url))
 			req = Net::HTTP::Get.new(url)
