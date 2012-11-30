@@ -12,6 +12,7 @@ module Upyun
       options = { :api_domain => "v0.api.upyun.com", :api_form_secret => "" }.merge(options)
       @bucketname = bucketname
       @username = username
+			@bpwd = password
       @password = Digest::MD5.hexdigest(password)
       @api_domain = options[:api_domain]
       @api_form_secret = options[:api_form_secret]
@@ -21,7 +22,7 @@ module Upyun
       url = "http://#{api_domain}/#{bucketname}#{filepath}"
       uri = URI.parse(URI.encode(url))
 
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      response = Net::HTTP.start(uri.host, uri.port) do |http|
         date = get_gmt_date
         length = File.size(fd)
         method = 'PUT'
@@ -34,7 +35,30 @@ module Upyun
 
         http.send_request(method, uri.request_uri, fd.read, headers)
       end
+			response.body
     end
+
+		def check_space
+			url = "http://#{api_domain}/#{bucketname}/?usage"
+			uri = URI.parse(URI.encode(url))
+			req = Net::HTTP::Get.new(url)
+	    req.basic_auth @username, @bpwd
+	    response = Net::HTTP.start(uri.host, uri.port) do |http|
+				http.request(req) 
+			end
+      response.body
+		end
+
+		def check_demo(file)
+			url = "http://#{api_domain}/#{bucketname}/#{file}"
+			uri = URI.parse(URI.encode(url))
+			req = Net::HTTP::Get.new(url)
+	    req.basic_auth @username, @bpwd
+	    response = Net::HTTP.start(uri.host, uri.port) do |http|
+				http.request(req) 
+			end
+      response.body
+		end
 
     # 生成api使用的policy 以及 signature  可以是图片或者是文件附件 图片最大为1M 文件附件最大为5M
     def api_form_params(file_type = "pic", notify_url = "", return_url = "", expire_date = 1.days)

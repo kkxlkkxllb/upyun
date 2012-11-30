@@ -2,8 +2,8 @@
 require File.expand_path('../lib/upyun/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["lg2046"]
-  gem.email         = ["lg2046@gmail.com"]
+  gem.authors       = ["veggie"]
+  gem.email         = ["kkxlkkxllb@gmail.com"]
   gem.description   = %q{又拍云存储ruby api}
   gem.summary       = %q{又拍云存储ruby api}
   gem.homepage      = ""
