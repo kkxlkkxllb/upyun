@@ -49,10 +49,14 @@ module Upyun
       response.body
 		end
 
-		def checkout(file)
+		def checkout(file,opts={})
 			url = "http://#{api_domain}/#{bucketname}/#{file}"
 			uri = URI.parse(URI.encode(url))
-			req = Net::HTTP::Get.new(url)
+			if opts[:delete]
+				req = Net::HTTP::Delete.new(url)
+			else
+				req = Net::HTTP::Get.new(url)
+			end
 	    req.basic_auth @username, @bpwd
 	    response = Net::HTTP.start(uri.host, uri.port) do |http|
 				http.request(req) 
