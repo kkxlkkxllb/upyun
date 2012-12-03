@@ -35,7 +35,7 @@ module Upyun
 
         http.send_request(method, uri.request_uri, fd.read, headers)
       end
-			response.body
+			response
     end
 
 		def check_space
@@ -54,6 +54,8 @@ module Upyun
 			uri = URI.parse(URI.encode(url))
 			if opts[:delete]
 				req = Net::HTTP::Delete.new(url)
+			elsif opts[:info]
+				req = Net::HTTP::Head.new(url)
 			else
 				req = Net::HTTP::Get.new(url)
 			end
@@ -61,7 +63,7 @@ module Upyun
 	    response = Net::HTTP.start(uri.host, uri.port) do |http|
 				http.request(req) 
 			end
-      response.body
+			response
 		end
 
     # 生成api使用的policy 以及 signature  可以是图片或者是文件附件 图片最大为1M 文件附件最大为5M
